@@ -34,7 +34,7 @@ namespace Adafruit.BNO055
             if (I2CDeviceControllers.Count <= 0)
                 throw new Exception("No valid I2C controllers were found");
 
-            DeviceConnection = await I2cDevice.FromIdAsync(I2CDeviceControllers[0].Id, i2cSettings);
+            DeviceConnection = await I2cDevice.FromIdAsync(I2CDeviceControllers.First().Id, i2cSettings);
 
             for (int AttemptIndex = 0; ReadByte(BNO055Register.BNO055_CHIP_ID_ADDR) != BNO055_ID; AttemptIndex++)
             {
@@ -45,9 +45,9 @@ namespace Adafruit.BNO055
             }
 
             // This is the default mode, but setting it manually ensures proper operation
-            await SetMode(OperationMode.Config);
+            await SetOperationMode(OperationMode.Config);
 
-            // Reset the sensor
+            // Reset the sensor and wait for it to wake up
             WriteByte(BNO055Register.BNO055_SYS_TRIGGER_ADDR, 0x20);
             await Task.Delay(1000);
             while (ReadByte(BNO055Register.BNO055_CHIP_ID_ADDR) != BNO055_ID)
@@ -56,9 +56,8 @@ namespace Adafruit.BNO055
             }
             await Task.Delay(50);
 
-            /* Set to normal power mode */
-            WriteByte(BNO055Register.BNO055_PWR_MODE_ADDR, (byte)PowerMode.Normal);
-            await Task.Delay(10);
+            
+            await SetPowerMode(PowerMode.Normal);
 
             WriteByte(BNO055Register.BNO055_PAGE_ID_ADDR, 0);
 
@@ -75,7 +74,7 @@ namespace Adafruit.BNO055
             await Task.Delay(10);
 
             /* Set the requested operating mode (see section 3.3) */
-            await SetMode(OperationMode.NineDegsOfFreedom);
+            await SetOperationMode(OperationMode.NineDegsOfFreedom);
             await Task.Delay(10);
         }
 
@@ -86,7 +85,7 @@ namespace Adafruit.BNO055
                     + $" sensor was initialized. Call {nameof(Initialize)}() before reading or writing data.");
         }
 
-        public BNO055IMUReading GetNewReading()
+        public BNO055IMUReading GetNew9DOFReading()
         {
             return new BNO055IMUReading(
                 ReadCalibration(),
@@ -105,9 +104,15 @@ namespace Adafruit.BNO055
             return new CalibrationData(ReadByte((byte)BNO055Register.BNO055_CALIB_STAT_ADDR));
         }
 
-        private async Task SetMode(OperationMode mode)
+        public async Task SetOperationMode(OperationMode newMode)
         {
-            WriteByte((byte)BNO055Register.BNO055_OPR_MODE_ADDR, (byte)mode);
+            WriteByte((byte)BNO055Register.BNO055_OPR_MODE_ADDR, (byte)newMode);
+            await Task.Delay(30);
+        }
+
+        public async Task SetPowerMode(PowerMode newMode)
+        {
+            WriteByte((byte)BNO055Register.BNO055_PWR_MODE_ADDR, (byte)newMode);
             await Task.Delay(30);
         }
 
