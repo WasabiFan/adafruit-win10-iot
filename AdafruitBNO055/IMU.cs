@@ -85,17 +85,17 @@ namespace Adafruit.BNO055
                     + $" sensor was initialized. Call {nameof(Initialize)}() before reading or writing data.");
         }
 
-        public BNO055IMUReading GetNew9DOFReading()
+        public IMUReading GetNew9DOFReading()
         {
-            return new BNO055IMUReading(
+            return new IMUReading(
                 ReadCalibration(),
                 ReadTemp(),
-                ReadVector(IMUVectorType.Accelerometer),
-                ReadVector(IMUVectorType.Euler),
-                ReadVector(IMUVectorType.Gravity),
-                ReadVector(IMUVectorType.Gyroscope),
-                ReadVector(IMUVectorType.LinearAccel),
-                ReadVector(IMUVectorType.Magnetometer));
+                ReadVector(VectorType.Accelerometer),
+                ReadVector(VectorType.Euler),
+                ReadVector(VectorType.Gravity),
+                ReadVector(VectorType.Gyroscope),
+                ReadVector(VectorType.LinearAccel),
+                ReadVector(VectorType.Magnetometer));
 
         }
 
@@ -121,7 +121,7 @@ namespace Adafruit.BNO055
             return ReadByte((byte)BNO055Register.BNO055_TEMP_ADDR);
         }
 
-        public Vector ReadVector(IMUVectorType type)
+        public Vector ReadVector(VectorType type)
         {
             AssertConnected();
 
@@ -139,18 +139,18 @@ namespace Adafruit.BNO055
 
             switch (type)
             {
-                case IMUVectorType.Magnetometer:
+                case VectorType.Magnetometer:
                     /* 1uT = 16 LSB */
                     return RawVector / 16.0;
-                case IMUVectorType.Gyroscope:
+                case VectorType.Gyroscope:
                     /* 1rps = 900 LSB */
                     return RawVector / 900.0;
-                case IMUVectorType.Euler:
+                case VectorType.Euler:
                     /* 1 degree = 16 LSB */
                     return RawVector / 16.0;
-                case IMUVectorType.Accelerometer:
-                case IMUVectorType.LinearAccel:
-                case IMUVectorType.Gravity:
+                case VectorType.Accelerometer:
+                case VectorType.LinearAccel:
+                case VectorType.Gravity:
                     /* 1m/s^2 = 100 LSB */
                     return RawVector / 100.0;
             }

@@ -31,9 +31,9 @@ namespace Adafruit.BNO055
             this.Z = z; 
         }
 
-        public double X;
-        public double Y;
-        public double Z;
+        public readonly double X;
+        public readonly double Y;
+        public readonly double Z;
 
         public static Vector operator +(Vector a, Vector b)
         {
@@ -66,9 +66,9 @@ namespace Adafruit.BNO055
         }
     }
 
-    public struct BNO055IMUReading
+    public struct IMUReading
     {
-        public BNO055IMUReading(
+        public IMUReading(
             CalibrationData calibration,
             int temperature,
             Vector acceleration,

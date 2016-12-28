@@ -180,7 +180,7 @@
         NineDegsOfFreedom = 0X0C
     }
 
-    public enum IMUVectorType : byte
+    public enum VectorType : byte
     {
         Accelerometer = BNO055Register.BNO055_ACCEL_DATA_X_LSB_ADDR,
         Magnetometer = BNO055Register.BNO055_MAG_DATA_X_LSB_ADDR,
