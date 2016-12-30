@@ -124,6 +124,12 @@ namespace Adafruit.PCA9685
                 WriteRawPwmConfig(pinNumber, onTimestamp, offTimestamp);
         }
 
+        /// <summary>
+        /// Sets the desired duty cycle on the specified pin.
+        /// </summary>
+        /// <param name="pinNumber">The pin number to configure</param>
+        /// <param name="dutyCycle">A value in the range 0-1, inclusive, specifying the percentage of time that the pin is high.</param>
+        /// <param name="outerDeadZone">A threshold applied to the extremes of the valid duty cycle range within which the PWM signal is overridden to be always-on or always-off.</param>
         void SetPwm(byte pinNumber, float dutyCycle, float outerDeadZone = 10e-5f)
         {
             if (dutyCycle > 1 || dutyCycle < 0)
