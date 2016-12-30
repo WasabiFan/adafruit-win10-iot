@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D91A01DB-B620-4625-AB33-5EE724263D5C}</ProjectGuid>
+    <ProjectGuid>{91E7FF6A-0348-4731-BF58-BE8611325172}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AdafruitBNO055</RootNamespace>
-    <AssemblyName>AdafruitBNO055</AssemblyName>
+    <RootNamespace>AdafruitPCA9685</RootNamespace>
+    <AssemblyName>AdafruitPCA9685</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
@@ -107,11 +107,9 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IMU.cs" />
-    <Compile Include="InterfaceAddresses.cs" />
-    <Compile Include="Reading.cs" />
+    <Compile Include="PWMBreakout.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Properties\AdafruitBNO055.rd.xml" />
+    <EmbeddedResource Include="Properties\AdafruitPCA9685.rd.xml" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
