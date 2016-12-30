@@ -16,7 +16,6 @@ namespace Adafruit.BNO055
         private const byte BNO055_ID = 0xA0;
 
         I2cDevice DeviceConnection = null;
-        Timer IMUTimer = null;
 
         public BNO055IMU(string i2cFriendlyName = "I2C1", AddressMode imuAddress = AddressMode.AddressA)
         {
