@@ -70,7 +70,8 @@ namespace Adafruit.PCA9685
         /// of the valid tick range are allowed as specified by the chip manufacturer, without any
         /// bounds checks.
         /// </summary>
-        /// <see cref="SetPwm(byte, ushort, ushort, bool?)"/>
+        /// <seealso cref="SetPwmWaveform(byte, ushort, ushort, bool?)"/>
+        /// <seealso cref="SetPwm(byte, float, float)"/>
         public void WriteRawPwmConfig(byte pinNumber, ushort on, ushort off)
         {
             AssertConnected();
@@ -108,6 +109,8 @@ namespace Adafruit.PCA9685
         /// <param name="onTimestamp">The time within the 4096-tick-long cycle at which the pin should be set high. Valid values are 0-4095, inclusive.</param>
         /// <param name="offTimestamp">The time within the 4096-tick-long cycle at which the pin should be set low. Valid values are 0-4095, inclusive.</param>
         /// <param name="overrideToBinary">When non-null, defines the constant logic level to set, instead of a normal PWM signal.</param>
+        /// <seealso cref="WriteRawPwmConfig(byte, ushort, ushort)"/>
+        /// <seealso cref="SetPwm(byte, float, float)"/>
         public void SetPwmWaveform(byte pinNumber, ushort onTimestamp, ushort offTimestamp, bool? overrideToBinary = null)
         {
             if(onTimestamp > 4095)
@@ -130,6 +133,8 @@ namespace Adafruit.PCA9685
         /// <param name="pinNumber">The pin number to configure</param>
         /// <param name="dutyCycle">A value in the range 0-1, inclusive, specifying the percentage of time that the pin is high.</param>
         /// <param name="outerDeadZone">A threshold applied to the extremes of the valid duty cycle range within which the PWM signal is overridden to be always-on or always-off.</param>
+        /// <seealso cref="SetFrequency(float)"/>
+        /// <seealso cref="SetPwmWaveform(byte, ushort, ushort, bool?)"/>
         void SetPwm(byte pinNumber, float dutyCycle, float outerDeadZone = 10e-5f)
         {
             if (dutyCycle > 1 || dutyCycle < 0)
