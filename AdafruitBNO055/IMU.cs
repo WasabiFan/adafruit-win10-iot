@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -31,7 +32,7 @@ namespace Adafruit.BNO055
             string DeviceSelector = I2cDevice.GetDeviceSelector(I2CFriendlyName);
             var I2CDeviceControllers = await DeviceInformation.FindAllAsync(DeviceSelector);
             if (I2CDeviceControllers.Count <= 0)
-                throw new Exception("No valid I2C controllers were found");
+                throw new IMUCommunicationException("No valid I2C controllers were found");
 
             DeviceConnection = await I2cDevice.FromIdAsync(I2CDeviceControllers.First().Id, i2cSettings);
 
@@ -39,7 +40,7 @@ namespace Adafruit.BNO055
             {
                 await Task.Delay(retryDelay);
                 if (AttemptIndex >= numRetries)
-                    throw new Exception("The IMU didn't properly respond over the I2C bus. Confirm that it is properly"
+                    throw new IMUCommunicationException("The IMU didn't properly respond over the I2C bus. Confirm that it is properly"
                         + " connected and that the supplied I2C bus name is correct.");
             }
 
@@ -80,7 +81,7 @@ namespace Adafruit.BNO055
         private void AssertConnected()
         {
             if (DeviceConnection == null)
-                throw new InvalidOperationException("An attempt was made to communicate with the sensor before the"
+                throw new IMUNotConnectedException("An attempt was made to communicate with the sensor before the"
                     + $" sensor was initialized. Call {nameof(Initialize)}() before reading or writing data.");
         }
 
@@ -125,8 +126,8 @@ namespace Adafruit.BNO055
             AssertConnected();
 
             byte[] I2CBuffer = new byte[6];
-            DeviceConnection.Write(new byte[] { (byte)type });
-            DeviceConnection.Read(I2CBuffer);
+            WriteRaw(new byte[] { (byte)type });
+            ReadRaw(I2CBuffer);
 
             Vector RawVector = new Vector(
                 I2CBuffer[0] | (I2CBuffer[1] << 8),
@@ -162,8 +163,10 @@ namespace Adafruit.BNO055
             AssertConnected();
 
             byte[] I2CBuffer = new byte[20];
-            DeviceConnection.Write(new byte[] { addr });
-            DeviceConnection.Read(I2CBuffer);
+
+            WriteRaw(new byte[] { addr });
+            ReadRaw(I2CBuffer);
+
             return I2CBuffer[0];
         }
 
@@ -179,12 +182,36 @@ namespace Adafruit.BNO055
             byte[] I2CBuffer = new byte[2];
             I2CBuffer[0] = addr;
             I2CBuffer[1] = data;
-            DeviceConnection.Write(I2CBuffer);
+            WriteRaw(I2CBuffer);
         }
 
         public void WriteByte(BNO055Register register, byte data)
         {
             WriteByte((byte)register, data);
+        }
+
+        private void WriteRaw(byte[] data)
+        {
+            try
+            {
+                DeviceConnection.Write(data);
+            }
+            catch (FileNotFoundException e)
+            {
+                throw new IMUCommunicationException("An error occurred while communicating whith the device.", e);
+            }
+        }
+
+        private void ReadRaw(byte[] buffer)
+        {
+            try
+            {
+                DeviceConnection.Read(buffer);
+            }
+            catch (FileNotFoundException e)
+            {
+                throw new IMUCommunicationException("An error occurred while communicating whith the device.", e);
+            }
         }
     }
 }

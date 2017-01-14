@@ -107,6 +107,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions.cs" />
     <Compile Include="IMU.cs" />
     <Compile Include="InterfaceAddresses.cs" />
     <Compile Include="Reading.cs" />
