@@ -23,7 +23,7 @@ namespace Adafruit.BNO055
             this.IMUAddress = imuAddress;
         }
 
-        public async void Initialize(int numRetries = 1, int retryDelay = 1000)
+        public async Task Initialize(int numRetries = 1, int retryDelay = 1000)
         {
             var i2cSettings = new I2cConnectionSettings((byte)IMUAddress);
             i2cSettings.BusSpeed = I2cBusSpeed.StandardMode;
