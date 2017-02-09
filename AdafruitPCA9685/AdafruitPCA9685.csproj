@@ -7,7 +7,7 @@
     <ProjectGuid>{91E7FF6A-0348-4731-BF58-BE8611325172}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AdafruitPCA9685</RootNamespace>
+    <RootNamespace>Adafruit.PCA9685</RootNamespace>
     <AssemblyName>AdafruitPCA9685</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>

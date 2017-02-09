@@ -135,7 +135,7 @@ namespace Adafruit.PCA9685
         /// <param name="outerDeadZone">A threshold applied to the extremes of the valid duty cycle range within which the PWM signal is overridden to be always-on or always-off.</param>
         /// <seealso cref="SetFrequency(float)"/>
         /// <seealso cref="SetPwmWaveform(byte, ushort, ushort, bool?)"/>
-        void SetPwm(byte pinNumber, float dutyCycle, float outerDeadZone = 10e-5f)
+        public void SetPwm(byte pinNumber, float dutyCycle, float outerDeadZone = 10e-5f)
         {
             if (dutyCycle > 1 || dutyCycle < 0)
                 throw new ArgumentOutOfRangeException(nameof(dutyCycle), dutyCycle, "The given duty cycle value must be in the range 0-1, inclusive.");

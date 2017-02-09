@@ -1,0 +1,8 @@
+﻿<Application
+    x:Class="PCA9685Demo.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PCA9685Demo"
+    RequestedTheme="Light">
+
+</Application>
