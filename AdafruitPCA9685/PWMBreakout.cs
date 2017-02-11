@@ -120,9 +120,9 @@ namespace Adafruit.PCA9685
                 throw new ArgumentOutOfRangeException(nameof(offTimestamp), offTimestamp, "The given timestamps must be within the board's tick counter range. Valid values are 0-4095, inclusive.");
 
             if (overrideToBinary == true)
-                WriteRawPwmConfig(pinNumber, (byte)(onTimestamp & (1 >> 12)), 0);
+                WriteRawPwmConfig(pinNumber, (ushort)(onTimestamp | (1 << 12)), 0);
             else if (overrideToBinary == false)
-                WriteRawPwmConfig(pinNumber, 0, (byte)(offTimestamp & (1 >> 12)));
+                WriteRawPwmConfig(pinNumber, 0, (ushort)(offTimestamp | (1 << 12)));
             else
                 WriteRawPwmConfig(pinNumber, onTimestamp, offTimestamp);
         }
