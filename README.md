@@ -9,6 +9,9 @@ welcome!
 While these were written specifically for the Adafruit-distributed breakout boards, they should work with the
 base chips used in those boards as well.
 
+This code has been tested on a Raspberry Pi 3; other boards should work, but that hasn't been confirmed yet.
+If you get it running with another hardware configuration, open an issue to let me know!
+
 ## Notes on individual libraries
 
 ### Absolute Orientation IMU (BNO055 breakout board)
@@ -34,3 +37,5 @@ The interface for the PWM board in this library is slightly different than that 
 package. While low-level interfaces are provided, this library exposes higher-level functions differently to
 align with typical C# design practices. This should be considered when translating Arduino code into C# with
 this library.
+
+The core logic in this implementation is based on the [official Adafruit library](https://github.com/adafruit/Adafruit-PWM-Servo-Driver-Library).
