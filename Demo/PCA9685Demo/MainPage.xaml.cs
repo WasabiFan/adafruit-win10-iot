@@ -24,13 +24,24 @@ namespace PCA9685Demo
     public sealed partial class MainPage : Page
     {
         PCA9685PWMBreakout PwmBreakout;
+        double SinInput = 0;
         public MainPage()
         {
             this.InitializeComponent();
             PwmBreakout = new PCA9685PWMBreakout();
-            PwmBreakout.Initialize();
-            PwmBreakout.SetFrequency(50);
-            PwmBreakout.SetPwm(0, 0.5f);
+        }
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            await PwmBreakout.Initialize();
+            await PwmBreakout.SetFrequency(1600);
+
+            DispatcherTimer Timer = new DispatcherTimer()
+            {
+                Interval = TimeSpan.FromMilliseconds(10)
+            };
+            Timer.Tick += (s, evt) => PwmBreakout.SetPwm(0, (float)(Math.Sin(SinInput += 0.1) / 2 + 0.5));
+            Timer.Start();
         }
     }
 }

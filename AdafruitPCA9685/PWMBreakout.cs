@@ -21,7 +21,7 @@ namespace Adafruit.PCA9685
             Address = breakoutAddress;
         }
 
-        public async void Initialize()
+        public async Task Initialize()
         {
             var i2cSettings = new I2cConnectionSettings(Address);
             i2cSettings.BusSpeed = I2cBusSpeed.StandardMode;
@@ -40,7 +40,7 @@ namespace Adafruit.PCA9685
             WriteByte(PCA9685Register.Mode1, 0x0);
         }
 
-        public async void SetFrequency(float frequency)
+        public async Task SetFrequency(float frequency)
         {
             // Correct for overshoot in provided frequency: https://github.com/adafruit/Adafruit-PWM-Servo-Driver-Library/issues/11
             frequency *= 0.9f;
