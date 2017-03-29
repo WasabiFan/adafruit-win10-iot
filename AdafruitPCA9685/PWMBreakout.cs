@@ -23,8 +23,10 @@ namespace Adafruit.PCA9685
 
         public async Task Initialize()
         {
-            var i2cSettings = new I2cConnectionSettings(Address);
-            i2cSettings.BusSpeed = I2cBusSpeed.StandardMode;
+            var i2cSettings = new I2cConnectionSettings(Address)
+            {
+                BusSpeed = I2cBusSpeed.StandardMode
+            };
 
             string DeviceSelector = I2cDevice.GetDeviceSelector(I2CFriendlyName);
             var I2CDeviceControllers = await DeviceInformation.FindAllAsync(DeviceSelector);
