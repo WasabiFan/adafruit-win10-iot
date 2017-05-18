@@ -85,6 +85,26 @@ namespace Adafruit.BNO055
                     + $" sensor was initialized. Call {nameof(Initialize)}() before reading or writing data.");
         }
 
+        public Quaternion GetOrientationQuaternion()
+        {
+            AssertConnected();
+
+            byte[] I2CBuffer = new byte[8];
+            WriteRaw(new byte[] { (byte)BNO055Register.BNO055_QUATERNION_DATA_W_LSB_ADDR });
+            ReadRaw(I2CBuffer);
+
+            short x, y, z, w;
+            
+            w = (short)(I2CBuffer[1] << 8 | I2CBuffer[0]);
+            x = (short)(I2CBuffer[3] << 8 | I2CBuffer[2]);
+            y = (short)(I2CBuffer[5] << 8 | I2CBuffer[4]);
+            z = (short)(I2CBuffer[7] << 8 | I2CBuffer[6]);
+            
+            const double Scale = (1.0 / (1 << 14));
+            return new Quaternion(Scale * w, Scale * x, Scale * y, Scale * z);
+        }
+
+
         public IMUReading GetNew9DOFReading()
         {
             return new IMUReading(

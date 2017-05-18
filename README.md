@@ -20,8 +20,7 @@ If you get it running with another hardware configuration, open an issue to let 
 **Official library for Arduino:** <https://github.com/adafruit/Adafruit_BNO055> <br/>
 **Chip datasheet:** <https://www.adafruit.com/datasheets/BST_BNO055_DS000_12.pdf> <br/>
 
-While there are interfaces for setting all sensor-supported modes, certain ones (such as quaternion-based
-rotation) don't have pre-written logic to utilize them in this library. If you want to use those modes, you
+While there are interfaces for setting all sensor-supported modes, certain ones don't have pre-written logic to utilize them in this library. If you want to use those modes, you
 should use the raw `ReadByte`/`WriteByte` methods along with the `BNO055Register` enum.
 
 Special thanks to Gunter Logemann and his [ROV10 project](https://github.com/glogemann/ROV10) for his
