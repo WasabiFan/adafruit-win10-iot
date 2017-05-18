@@ -44,8 +44,11 @@ namespace Adafruit.PCA9685
 
         public async Task SetFrequency(float frequency)
         {
+            LastSetFrequency = frequency;
+
             // Correct for overshoot in provided frequency: https://github.com/adafruit/Adafruit-PWM-Servo-Driver-Library/issues/11
-            frequency *= 0.9f;
+            // Note: 0.96 was emperically determined to be closer. Should follow up to understand what is happening here.
+            frequency *= 0.96f;
 
             float PreScaleFloat = 25000000f / 4096f / frequency - 1;
             byte PreScaleByte = (byte)Math.Floor(PreScaleFloat + 0.5f);
@@ -66,6 +69,8 @@ namespace Adafruit.PCA9685
             // Set MODE1 register to turn on auto increment
             WriteByte(PCA9685Register.Mode1, (byte)(OldMode | 0xa1));
         }
+
+        public float? LastSetFrequency { get; protected set; }
 
         /// <summary>
         /// Writes raw values to the on and off registers of the given pin. Special values outside
